@@ -6,6 +6,9 @@ import math
 
 ### PARENTHESES MATCHING
 
+def plus(a,b):
+  return a + b
+
 def iterate(f, x, a):
     # done. do not change me.
     if len(a) == 0:
@@ -43,7 +46,10 @@ def parens_match_iterative(mylist):
     False
     """
     ### TODO
-    pass
+
+    match_verdict = iterate(parens_update, 0 , mylist)
+    return match_verdict == 0
+    
 
 
 def parens_update(current_output, next_input):
@@ -59,7 +65,13 @@ def parens_update(current_output, next_input):
       the updated value of `current_output`
     """
     ###TODO
-    pass
+
+    if next_input == "(":
+      current_output += 1
+    if next_input == ')':
+      current_output -= 1
+    return current_output
+  
 
 
 def test_parens_match_iterative():
@@ -88,7 +100,23 @@ def parens_match_scan(mylist):
     
     """
     ###TODO
-    pass
+
+
+    scannedlist = []
+    for character in mylist:
+      scannedlist.append(paren_map(character))
+
+    thescan = scan(plus, 0, scannedlist)
+    thereduce = reduce(min_f, 0, scannedlist)
+
+    if thescan == 0 and thereduce == 0:
+      return True
+    if thescan[1] != 0 and thereduce != 0:
+      return False
+    else:
+      return True
+      
+    
 
 def scan(f, id_, a):
     """
@@ -161,7 +189,32 @@ def parens_match_dc_helper(mylist):
       parens_match_dc to return the final True or False value
     """
     ###TODO
-    pass
+
+    if len(mylist) == 0:
+      return (0,0)
+
+    if len(mylist) == 1:
+      if mylist[0] == '(':
+        return (1,0)
+      elif mylist[0] == ')':
+        return (0,1)
+      else:
+        return (0,0)
+
+    elements = len(mylist)
+
+    left = parens_match_dc_helper(mylist[elements// 2:])
+    right = parens_match_dc_helper(mylist[:elements//2])
+    left = reduce(plus, 0, left)
+    right = reduce(plus, 0, right)
+
+
+
+    while (left > 0 and right > 0):
+      left -= 1
+      right -= 1
+    return (left, right)
+  
     
 
 def test_parens_match_dc():

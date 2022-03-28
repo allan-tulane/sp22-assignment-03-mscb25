@@ -1,0 +1,2 @@
+language = "python3"
+run = "pytest==5.0.0"
